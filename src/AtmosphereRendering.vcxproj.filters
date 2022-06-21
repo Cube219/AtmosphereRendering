@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Core.cpp" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="glad.c" />
+    <ClCompile Include="RenderSystem\RenderSystem.cpp">
+      <Filter>RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="ResourceSystem\BaseMeshGenerator.cpp">
+      <Filter>ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceSystem\FbxImporter.cpp">
+      <Filter>ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceSystem\ImageImporter.cpp">
+      <Filter>ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceSystem\Mesh.cpp">
+      <Filter>ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceSystem\ResourceSystem.cpp">
+      <Filter>ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceSystem\Shader.cpp">
+      <Filter>ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceSystem\Texture.cpp">
+      <Filter>ResourceSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneSystem\SceneSystem.cpp">
+      <Filter>SceneSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectSystem\GameObject.cpp">
+      <Filter>GameObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectSystem\GameObjectSystem.cpp">
+      <Filter>GameObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\MainScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Core.h" />
+    <ClInclude Include="BaseHeader.h" />
+    <ClInclude Include="Logger.h" />
+    <ClInclude Include="RenderSystem\RenderSystem.h">
+      <Filter>RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility.h" />
+    <ClInclude Include="ResourceSystem\BaseMeshGenerator.h">
+      <Filter>ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceSystem\FbxImporter.h">
+      <Filter>ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceSystem\ImageImporter.h">
+      <Filter>ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceSystem\Mesh.h">
+      <Filter>ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceSystem\ResourceSystem.h">
+      <Filter>ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceSystem\Shader.h">
+      <Filter>ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceSystem\Texture.h">
+      <Filter>ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneSystem\Scene.h">
+      <Filter>SceneSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneSystem\SceneSystem.h">
+      <Filter>SceneSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem\RendererComponent.h">
+      <Filter>RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectSystem\GameObject.h">
+      <Filter>GameObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectSystem\GameObjectSystem.h">
+      <Filter>GameObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\MainScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="RenderSystem">
+      <UniqueIdentifier>{88328353-76b7-4220-bdfa-845259531cfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceSystem">
+      <UniqueIdentifier>{8105a42a-b32f-41df-8c03-a8681c077e7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SceneSystem">
+      <UniqueIdentifier>{97a24867-8554-4006-8424-8997a5d3d1df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{7d221ef3-a4f4-467e-a424-959135b13968}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjectSystem">
+      <UniqueIdentifier>{d3a95d6a-e0e9-46f5-8e80-f51fd973bc8b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
