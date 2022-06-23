@@ -2,7 +2,7 @@
 
 int main(int argc, char* argv[])
 {
-	Core::Initialize("Shooter", 1280, 720);
+	Core::Initialize("Atmosphere Rendering", 1600, 900);
 	Core::Run();
 	Core::Shutdown();
 

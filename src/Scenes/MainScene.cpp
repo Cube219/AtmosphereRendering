@@ -1,5 +1,7 @@
 #include "MainScene.h"
 
+#include "Core.h"
+
 #include "ResourceSystem/BaseMeshGenerator.h"
 #include "GameObjectSystem/GameObject.h"
 #include "GameObjectSystem/GameObjectSystem.h"
@@ -14,7 +16,7 @@ void MainScene::Begin()
     mTopBoxMaterial.diffuse = vec4(1, 0, 0, 1);
     mBottomBoxMaterial.diffuse = vec4(0, 1, 0, 1);
     mLeftBoxMaterial.diffuse = vec4(0, 0, 1, 1);
-    mRightBoxMaterial.diffuse = vec4(1, 0, 0, 1);
+    mRightBoxMaterial.diffuse = vec4(1, 1, 1, 1);
     mPlaneMaterial.diffuse = vec4(0.5, 0.5, 0.5, 1);
 
     mTopBox = std::make_shared<Renderable>(mBoxMesh);
@@ -42,14 +44,15 @@ void MainScene::Begin()
     GameObjectSystem::RegisterGameObject(mRightBox);
 
     mPlane = std::make_shared<Renderable>(mPlaneMesh);
-    mPlane->SetScale(vec3(3, 1, 3));
-    mPlane->SetPosition(vec3(0, 0, -5));
+    mPlane->SetScale(vec3(10, 1, 10));
+    mPlane->SetPosition(vec3(0, -5, 0));
     mPlane->GetRendererComponent()->SetMaterial(0, &mPlaneMaterial);
     GameObjectSystem::RegisterGameObject(mPlane);
 
     RenderSystem::SetCameraInfo(0.7853f, 1.0f, 1000.0f);
     RenderSystem::SetCameraPosition(vec3(0, 0, 0));
-    RenderSystem::SetCameraRotation(vec3(10, 0, 0));
+    RenderSystem::SetCameraRotation(vec3(0, 0, 0));
+    mLastMousePos = Core::GetMousePosition();
 }
 
 void MainScene::End()
@@ -71,6 +74,17 @@ void MainScene::End()
 
 void MainScene::Update(double dt)
 {
+    vec2 currentMousePos = Core::GetMousePosition();
+    
+    if(Core::IsMousePressed(MouseButton::Left)) {
+        vec3 cameraRotation = RenderSystem::GetCamera().rotation;
+        cameraRotation.y += (currentMousePos.x - mLastMousePos.x) * 0.3f;
+        cameraRotation.x += (currentMousePos.y - mLastMousePos.y) * 0.3f;
+
+        RenderSystem::SetCameraRotation(cameraRotation);
+    }
+
+    mLastMousePos = currentMousePos;
 }
 
 void MainScene::OnKeyPress(int code)

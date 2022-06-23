@@ -216,7 +216,7 @@ void RenderSystem::UpdateCameraMatrix()
     rotationMatrix *= glm::rotate(radians(mDefaultCamera.rotation.y), vec3(0, 1, 0));
     rotationMatrix *= glm::rotate(radians(mDefaultCamera.rotation.z), vec3(0, 0, 1));
 
-    vec3 forward = vec3(0, 0, -1);
+    vec3 forward = vec3(0, 0, 1);
     vec3 up = vec3(0, 1, 0);
     forward = (mat3)rotationMatrix * forward;
     up = (mat3)rotationMatrix * up;

@@ -39,6 +39,8 @@ private:
     SPtr<Renderable> mLeftBox;
     SPtr<Renderable> mRightBox;
     SPtr<Renderable> mPlane;
+
+    vec2 mLastMousePos;
 };
 
 #endif // __MAIN_SCENE_H__
