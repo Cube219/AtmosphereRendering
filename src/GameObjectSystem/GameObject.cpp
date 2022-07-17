@@ -70,7 +70,7 @@ void GameObject::UpdateModelMatrix()
 
     mModelMatrix = positionMatrix * rotationMatrix * scaleMatrix;
 
-    vec4 forward = vec4(0, 0, 1, 0);
+    vec4 forward = vec4(0, 0, -1, 0);
     vec4 up = vec4(0, 1, 0, 0);
     vec4 right = vec4(1, 0, 0, 0);
 

@@ -40,6 +40,10 @@ private:
     SPtr<Renderable> mRightBox;
     SPtr<Renderable> mPlane;
 
+    vec3 mPlayerPosition;
+    float mPlayerYaw;
+    float mPlayerPitch;
+
     vec2 mLastMousePos;
 };
 

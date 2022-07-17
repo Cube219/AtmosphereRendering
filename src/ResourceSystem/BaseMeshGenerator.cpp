@@ -127,19 +127,19 @@ SPtr<Mesh> BaseMeshGenerator::GetPlaneMesh()
 {
 	Vector<Vertex> vertices;
 	Vertex v;
-	v.norm = vec3(0, 1, 0);
+	v.norm = vec3(0, 0, -1);
 
-	v.pos = { -5.0f, 0.0f, -5.0f };
-	v.uv = { 0.0f, 1.0f };
-	vertices.push_back(v);
-	v.pos = { -5.0f, 0.0f, 5.0f };
+	v.pos = { -1.0f, -1.0f, 0.0f };
 	v.uv = { 0.0f, 0.0f };
 	vertices.push_back(v);
-	v.pos = { 5.0f, 0.0f, 5.0f };
-	v.uv = { 1.0f, 0.0f };
+	v.pos = { -1.0f, 1.0f, 0.0f };
+	v.uv = { 0.0f, 1.0f };
 	vertices.push_back(v);
-	v.pos = { 5.0f, 0.0f, -5.0f };
+	v.pos = { 1.0f, 1.0f, 0.0f };
 	v.uv = { 1.0f, 1.0f };
+	vertices.push_back(v);
+	v.pos = { 1.0f, -1.0f, 0.0f };
+	v.uv = { 1.0f, 0.0f };
 	vertices.push_back(v);
 
 	Vector<uint> indices = {

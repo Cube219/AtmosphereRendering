@@ -12,7 +12,7 @@ class Shader;
 struct Camera
 {
     vec3 position;
-    vec3 rotation;
+    vec3 direction;
 
     float fov;
     float aspect;
@@ -40,7 +40,7 @@ public:
 
     static void SetCameraInfo(float fov, float nearV, float farV);
     static void SetCameraPosition(vec3 position);
-    static void SetCameraRotation(vec3 rotation);
+    static void SetCameraDirection(vec3 rotation);
     static void UpdateCameraMatrix();
     static const Camera& GetCamera() { return mDefaultCamera; }
 

@@ -88,9 +88,9 @@ void RenderSystem::Render()
     // Set view/projMatrix
     GLint uloc;
     uloc = glGetUniformLocation(mDefaultShader->GetProgram(), "view_matrix");
-    glUniformMatrix4fv(uloc, 1, GL_TRUE, value_ptr(mDefaultCamera.viewMatrix));
+    glUniformMatrix4fv(uloc, 1, GL_FALSE, value_ptr(mDefaultCamera.viewMatrix));
     uloc = glGetUniformLocation(mDefaultShader->GetProgram(), "projection_matrix");
-    glUniformMatrix4fv(uloc, 1, GL_TRUE, value_ptr(mDefaultCamera.projMatrix));
+    glUniformMatrix4fv(uloc, 1, GL_FALSE, value_ptr(mDefaultCamera.projMatrix));
 
     // Set lights
     glUniform3fv(glGetUniformLocation(mDefaultShader->GetProgram(), "cameraPos"), 1, value_ptr(mDefaultCamera.position));
@@ -204,25 +204,15 @@ void RenderSystem::SetCameraPosition(vec3 position)
     mDefaultCamera.isDirty = true;
 }
 
-void RenderSystem::SetCameraRotation(vec3 rotation)
+void RenderSystem::SetCameraDirection(vec3 rotation)
 {
-    mDefaultCamera.rotation = rotation;
+    mDefaultCamera.direction = rotation;
     mDefaultCamera.isDirty = true;
 }
 
 void RenderSystem::UpdateCameraMatrix()
 {
-    mat4 rotationMatrix = glm::rotate(radians(mDefaultCamera.rotation.x), vec3(1, 0, 0));
-    rotationMatrix *= glm::rotate(radians(mDefaultCamera.rotation.y), vec3(0, 1, 0));
-    rotationMatrix *= glm::rotate(radians(mDefaultCamera.rotation.z), vec3(0, 0, 1));
-
-    vec3 forward = vec3(0, 0, 1);
-    vec3 up = vec3(0, 1, 0);
-    forward = (mat3)rotationMatrix * forward;
-    up = (mat3)rotationMatrix * up;
-
-
-    mat4 viewMatrix = glm::lookAt(mDefaultCamera.position, mDefaultCamera.position + forward, up);
+    mat4 viewMatrix = glm::lookAt(mDefaultCamera.position, mDefaultCamera.position + mDefaultCamera.direction, vec3(0, 1, 0));
     mat4 projectionMatrix = glm::perspective(mDefaultCamera.fov, mDefaultCamera.aspect, mDefaultCamera.nearV, mDefaultCamera.farV);
     mDefaultCamera.viewMatrix = viewMatrix;
     mDefaultCamera.projMatrix = projectionMatrix;

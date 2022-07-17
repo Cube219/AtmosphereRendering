@@ -49,9 +49,13 @@ void MainScene::Begin()
     mPlane->GetRendererComponent()->SetMaterial(0, &mPlaneMaterial);
     GameObjectSystem::RegisterGameObject(mPlane);
 
-    RenderSystem::SetCameraInfo(0.7853f, 1.0f, 1000.0f);
-    RenderSystem::SetCameraPosition(vec3(0, 0, 0));
-    RenderSystem::SetCameraRotation(vec3(0, 0, 0));
+    mPlayerPosition = vec3(0, 0, 0);
+    mPlayerYaw = 0;
+    mPlayerPitch = 0;
+
+    RenderSystem::SetCameraInfo(0.7853f, 1.0f, 100.0f);
+    RenderSystem::SetCameraPosition(vec3(0, 0, -1));
+    RenderSystem::SetCameraDirection(vec3(0, 0, 0));
     mLastMousePos = Core::GetMousePosition();
 }
 
@@ -75,14 +79,51 @@ void MainScene::End()
 void MainScene::Update(double dt)
 {
     vec2 currentMousePos = Core::GetMousePosition();
-    
-    if(Core::IsMousePressed(MouseButton::Left)) {
-        vec3 cameraRotation = RenderSystem::GetCamera().rotation;
-        cameraRotation.y += (currentMousePos.x - mLastMousePos.x) * 0.3f;
-        cameraRotation.x += (currentMousePos.y - mLastMousePos.y) * 0.3f;
 
-        RenderSystem::SetCameraRotation(cameraRotation);
+    if(Core::IsMousePressed(MouseButton::Left)) {
+        mPlayerYaw += (currentMousePos.x - mLastMousePos.x) * 0.1f;
+        mPlayerPitch -= (currentMousePos.y - mLastMousePos.y) * 0.1f;
     }
+
+    float yawRad = radians(mPlayerYaw);
+    float pitchRad = radians(mPlayerPitch);
+
+    vec3 direction;
+    direction.x = cos(yawRad) * cos(pitchRad);
+    direction.y = sin(pitchRad);
+    direction.z = sin(yawRad) * cos(pitchRad);
+    direction = normalize(direction);
+
+    float dx = 0, dy = 0, dz = 0;
+    if(Core::IsKeyPressed('A')) {
+        dx -= 0.1f;
+    }
+    if(Core::IsKeyPressed('D')) {
+        dx += 0.1f;
+    }
+    if(Core::IsKeyPressed('W')) {
+        dz += 0.1f;
+    }
+    if(Core::IsKeyPressed('S')) {
+        dz -= 0.1f;
+    }
+    if(Core::IsKeyPressed('Q')) {
+        dy -= 0.1f;
+    }
+    if(Core::IsKeyPressed('E')) {
+        dy += 0.1f;
+    }
+    vec3 forward = direction;
+    vec3 up = vec3(0, 1, 0);
+    vec3 right = normalize(cross(forward, up));
+    forward *= dz;
+    up *= dy;
+    right *= dx;
+
+    mPlayerPosition += forward + up + right;
+
+    RenderSystem::SetCameraPosition(mPlayerPosition);
+    RenderSystem::SetCameraDirection(direction);
 
     mLastMousePos = currentMousePos;
 }
