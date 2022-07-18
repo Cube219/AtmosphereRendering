@@ -12,7 +12,7 @@ SPtr<Mesh> Mesh::Load(const char* path)
 Mesh::Mesh(int vertexNum, int indexNum) :
     mVertexNum(vertexNum),
     mIndexNum(indexNum),
-    mTotalSize(vertexNum * sizeof(Vertex) + indexNum * sizeof(int)),
+    mTotalSize(vertexNum * sizeof(Vertex) + indexNum * sizeof(uint)),
     mVertexArray(0)
 {
     mpData = malloc(mTotalSize);
@@ -43,7 +43,7 @@ void Mesh::SetIndices(uint* pIndices, int numIndices)
     char* dst = (char*)mpData + (mVertexNum * sizeof(Vertex));
     memcpy(dst, pIndices, numIndices);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIndexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * numIndices, pIndices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * numIndices, pIndices, GL_STATIC_DRAW);
 }
 
 void Mesh::SetSubMesh(SubMesh* pSubMeshes, int numSubMeshes)

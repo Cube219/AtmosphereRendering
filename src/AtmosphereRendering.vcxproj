@@ -92,6 +92,8 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="RenderSystem\CloudRenderSystem.cpp" />
+    <ClCompile Include="RenderSystem\RenderDebugSystem.cpp" />
     <ClCompile Include="RenderSystem\RenderSystem.cpp" />
     <ClCompile Include="ResourceSystem\BaseMeshGenerator.cpp" />
     <ClCompile Include="ResourceSystem\FbxImporter.cpp" />
@@ -110,6 +112,8 @@
     <ClInclude Include="GameObjectSystem\GameObject.h" />
     <ClInclude Include="GameObjectSystem\GameObjectSystem.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="RenderSystem\CloudRenderSystem.h" />
+    <ClInclude Include="RenderSystem\RenderDebugSystem.h" />
     <ClInclude Include="RenderSystem\RendererComponent.h" />
     <ClInclude Include="RenderSystem\RenderSystem.h" />
     <ClInclude Include="ResourceSystem\BaseMeshGenerator.h" />

@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "RenderDebugSystem.h"
+#include "CloudRenderSystem.h"
 #include "RendererComponent.h"
 #include "../Core.h"
 #include "../ResourceSystem/Mesh.h"
@@ -161,6 +163,12 @@ void RenderSystem::Render()
             glDrawElements(GL_TRIANGLES, sm.indexCount, GL_UNSIGNED_INT, (GLvoid*)(sm.indexOffset * sizeof(GLuint)));
         }
     }
+
+    // Draw cloud
+    CloudRenderSystem::SubRender();
+
+    // Draw debug
+    RenderDebugSystem::SubRender();
 
     glfwSwapBuffers(Core::GetGLFWwindow());
 }

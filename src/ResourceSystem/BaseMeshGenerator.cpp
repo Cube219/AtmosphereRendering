@@ -143,7 +143,7 @@ SPtr<Mesh> BaseMeshGenerator::GetPlaneMesh()
 	vertices.push_back(v);
 
 	Vector<uint> indices = {
-		0,1,2,  0,2,3
+		0,3,1,  2,1,3
 	};
 
 	SetNormalVector(vertices, indices);

@@ -42,6 +42,12 @@
     <ClCompile Include="Scenes\MainScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="RenderSystem\CloudRenderSystem.cpp">
+      <Filter>RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem\RenderDebugSystem.cpp">
+      <Filter>RenderSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core.h" />
@@ -89,6 +95,12 @@
     </ClInclude>
     <ClInclude Include="Scenes\MainScene.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem\CloudRenderSystem.h">
+      <Filter>RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem\RenderDebugSystem.h">
+      <Filter>RenderSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

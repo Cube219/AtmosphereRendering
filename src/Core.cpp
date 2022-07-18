@@ -2,6 +2,8 @@
 
 #include "Utility.h"
 #include "GameObjectSystem/GameObjectSystem.h"
+#include "RenderSystem/CloudRenderSystem.h"
+#include "RenderSystem/RenderDebugSystem.h"
 #include "RenderSystem/RenderSystem.h"
 #include "ResourceSystem/ResourceSystem.h"
 #include "SceneSystem/SceneSystem.h"
@@ -56,7 +58,6 @@ bool Core::Initialize(const char* windowName, int width, int height)
     if(!window) {
         LOG_ERROR("Failed to create window");
     }
-    printf("WOW\n");
 
     glfwMakeContextCurrent(window);
 
@@ -194,6 +195,8 @@ void Core::InitializeSystems()
 {
     GameObjectSystem::Initizlie();
     RenderSystem::Initizlie();
+    CloudRenderSystem::Initialize();
+    RenderDebugSystem::Initialize();
     // Dispatch resize event for getting aspect ratio
     RenderSystem::OnResize(windowWidth, windowHeight);
     SceneSystem::OnResize(windowWidth, windowHeight);
@@ -205,6 +208,8 @@ void Core::ShutdownSystems()
 {
     SceneSystem::Shutdown();
     ResourceSystem::Shutdown();
+    RenderDebugSystem::Shutdown();
+    CloudRenderSystem::Shutdown();
     RenderSystem::Shutdown();
     GameObjectSystem::Shutdown();
 }
