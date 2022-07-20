@@ -19,11 +19,18 @@ public:
 
     static void SubRender();
 
+    static void SetDebugTexture(GLuint tex)
+    {
+        texture = tex;
+    }
+
 private:
     static mat4 GetUIMatrix(int idx);
 
     static SPtr<Shader> debugPlaneShader;
     static SPtr<Mesh> planeMesh;
+
+    static GLuint texture;
 };
 
 #endif // __RENDER_DEBUG_SYSTEM_H__
