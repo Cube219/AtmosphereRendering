@@ -13,7 +13,7 @@ void CloudRenderSystem::Initialize()
 {
     InitTextures();
 
-    RenderDebugSystem::SetDebugTexture(shapeTexture3D);
+    RenderDebugSystem::SetDebugTexture(detailTexture3D);
 }
 
 void CloudRenderSystem::Shutdown()
@@ -48,11 +48,24 @@ void CloudRenderSystem::InitTextures()
     glDispatchCompute(128, 128, 128);
     glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
 
-    //
     // Detail texture
-    // glGenTextures(1, &detailTexture3D);
-    // glBindTexture(GL_TEXTURE_3D, detailTexture3D);
-    // glTexStorage3D(GL_TEXTURE_3D, 6, GL_RGBA8, 32, 32, 32);
+    glGenTextures(1, &detailTexture3D);
+    glBindTexture(GL_TEXTURE_3D, detailTexture3D);
+    glTexStorage3D(GL_TEXTURE_3D, 6, GL_RGBA8, 32, 32, 32);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+    computeShader = Shader::LoadCompute("..\\shaders\\generator\\worley.comp");
+    program = computeShader->GetProgram();
+    glUseProgram(program);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_3D, detailTexture3D);
+    glBindImageTexture(0, detailTexture3D, 0, GL_TRUE, 0, GL_READ_WRITE, GL_RGBA8);
+    glUniform1i(glGetUniformLocation(program, "outVolTex"), 0);
+
+    glDispatchCompute(32, 32, 32);
+    glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
 
     // Weather texture
     glGenTextures(1, &weatherTexture);
