@@ -44,6 +44,9 @@ public:
     static void UpdateCameraMatrix();
     static const Camera& GetCamera() { return mDefaultCamera; }
 
+    static void SetLightDir(vec3 dir);
+    static vec3 GetLightDir() { return mLightDir; }
+
 private:
     static int mWidth;
     static int mHeight;
@@ -53,6 +56,8 @@ private:
     
     static SPtr<Shader> mDefaultShader;
     static Camera mDefaultCamera;
+
+    static vec3 mLightDir;
 };
 
 #endif // __RENDER_SYSTEM_H__

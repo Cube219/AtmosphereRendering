@@ -21,10 +21,14 @@ public:
 
 private:
     static void InitTextures();
+    static void DestroyTextures();
 
     static GLuint shapeTexture3D;
     static GLuint detailTexture3D;
     static GLuint weatherTexture;
+
+    static SPtr<Mesh> planeMesh;
+    static SPtr<Shader> cloudShader;
 };
 
 #endif // __CLOUD_RENDER_SYSTEM_H__

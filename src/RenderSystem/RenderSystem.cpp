@@ -19,6 +19,8 @@ Vector<SPtr<RendererComponent>> RenderSystem::mComponents;
 SPtr<Shader> RenderSystem::mDefaultShader;
 Camera RenderSystem::mDefaultCamera;
 
+vec3 RenderSystem::mLightDir = vec3(0, 1, 0);
+
 void RenderSystem::Initizlie()
 {
     glLineWidth(1.0f);
@@ -32,20 +34,6 @@ void RenderSystem::Initizlie()
 
     mIsDirty = false;
     mDefaultShader = Shader::Load("..\\shaders\\default.vert", "..\\shaders\\default.frag");
-
-    Vector<Vertex> vertices;
-    Vector<uint> indices;
-
-    Vertex v;
-    v.pos.x = 0;
-    vertices.push_back(v);
-    v.pos.x = 1;
-    vertices.push_back(v);
-    v.pos.x = 2;
-    vertices.push_back(v);
-    v.pos.x = 3;
-    vertices.push_back(v);
-    indices = { 0,1,2, 2,1,3 };
 }
 
 void RenderSystem::Shutdown()
@@ -224,4 +212,9 @@ void RenderSystem::UpdateCameraMatrix()
     mat4 projectionMatrix = glm::perspective(mDefaultCamera.fov, mDefaultCamera.aspect, mDefaultCamera.nearV, mDefaultCamera.farV);
     mDefaultCamera.viewMatrix = viewMatrix;
     mDefaultCamera.projMatrix = projectionMatrix;
+}
+
+void RenderSystem::SetLightDir(vec3 dir)
+{
+    mLightDir = normalize(dir);
 }
