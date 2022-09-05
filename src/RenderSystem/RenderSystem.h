@@ -47,7 +47,13 @@ public:
     static void SetLightDir(vec3 dir);
     static vec3 GetLightDir() { return mLightDir; }
 
+    static GLuint GetMainFramebuffer() { return mMainFramebuffer; }
+    static GLuint GetColorMap() { return mColorMap; }
+    static GLuint GetDepthMap() { return mDepthMap; }
+
 private:
+    static void RecreateMaps();
+
     static int mWidth;
     static int mHeight;
 
@@ -58,6 +64,12 @@ private:
     static Camera mDefaultCamera;
 
     static vec3 mLightDir;
+
+    static SPtr<Mesh> mPlaneMesh;
+    static SPtr<Shader> mFinalShader;
+    static GLuint mMainFramebuffer;
+    static GLuint mColorMap;
+    static GLuint mDepthMap;
 };
 
 #endif // __RENDER_SYSTEM_H__

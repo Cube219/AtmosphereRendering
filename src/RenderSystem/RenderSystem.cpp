@@ -9,6 +9,7 @@
 #include "../ResourceSystem/Mesh.h"
 #include "../ResourceSystem/Shader.h"
 #include "../ResourceSystem/Texture.h"
+#include "ResourceSystem/BaseMeshGenerator.h"
 
 int RenderSystem::mWidth;
 int RenderSystem::mHeight;
@@ -20,6 +21,12 @@ SPtr<Shader> RenderSystem::mDefaultShader;
 Camera RenderSystem::mDefaultCamera;
 
 vec3 RenderSystem::mLightDir = vec3(0, 1, 0);
+
+SPtr<Mesh> RenderSystem::mPlaneMesh;
+SPtr<Shader> RenderSystem::mFinalShader;
+GLuint RenderSystem::mMainFramebuffer;
+GLuint RenderSystem::mColorMap;
+GLuint RenderSystem::mDepthMap;
 
 void RenderSystem::Initizlie()
 {
@@ -34,10 +41,18 @@ void RenderSystem::Initizlie()
 
     mIsDirty = false;
     mDefaultShader = Shader::Load("..\\shaders\\default.vert", "..\\shaders\\default.frag");
+
+    mPlaneMesh = BaseMeshGenerator::GetPlaneMesh();
+    mFinalShader = Shader::Load("..\\shaders\\final.vert", "..\\shaders\\final.frag");
+    glGenFramebuffers(1, &mMainFramebuffer);
 }
 
 void RenderSystem::Shutdown()
 {
+    glDeleteFramebuffers(1, &mMainFramebuffer);
+    mFinalShader = nullptr;
+    mPlaneMesh = nullptr;
+
     mDefaultShader = nullptr;
     mComponents.clear();
 }
@@ -65,7 +80,7 @@ void RenderSystem::Render()
     glActiveTexture(GL_TEXTURE3);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, mMainFramebuffer);
 
     glCullFace(GL_BACK);
 
@@ -158,6 +173,19 @@ void RenderSystem::Render()
     // Draw debug
     RenderDebugSystem::SubRender();
 
+    // Draw backbuffer
+    glDisable(GL_DEPTH_TEST);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    glUseProgram(mFinalShader->GetProgram());
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, mColorMap);
+    glUniform1i(glGetUniformLocation(mFinalShader->GetProgram(), "colorMap"), 0);
+
+    glBindVertexArray(mPlaneMesh->GetVertexArray());
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mPlaneMesh->GetIndexBuffer());
+    glDrawElements(GL_TRIANGLES, mPlaneMesh->GetIndicesNum(), GL_UNSIGNED_INT, 0);
+
     glfwSwapBuffers(Core::GetGLFWwindow());
 }
 
@@ -168,6 +196,8 @@ void RenderSystem::OnResize(int width, int height)
 
     mDefaultCamera.aspect = width / float(height);
     mDefaultCamera.isDirty = true;
+
+    RecreateMaps();
 }
 
 void RenderSystem::RegisterRendererComponent(SPtr<RendererComponent> c)
@@ -217,4 +247,29 @@ void RenderSystem::UpdateCameraMatrix()
 void RenderSystem::SetLightDir(vec3 dir)
 {
     mLightDir = normalize(dir);
+}
+
+void RenderSystem::RecreateMaps()
+{
+    glBindFramebuffer(GL_FRAMEBUFFER, mMainFramebuffer);
+
+    // Color map
+    if(!mColorMap) glDeleteTextures(1, &mColorMap);
+    glGenTextures(1, &mColorMap);
+    glBindTexture(GL_TEXTURE_2D, mColorMap);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, mColorMap, 0);
+
+    // Deptm map
+    if(!mDepthMap) glDeleteTextures(1, &mDepthMap);
+    glGenTextures(1, &mDepthMap);
+    glBindTexture(GL_TEXTURE_2D, mDepthMap);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, mWidth, mHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, mDepthMap, 0);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
