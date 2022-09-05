@@ -38,6 +38,10 @@ void CloudRenderSystem::SubRender()
     GLuint program = cloudShader->GetProgram();
     glUseProgram(program);
 
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, RenderSystem::GetDepthMap());
+    glUniform1i(glGetUniformLocation(program, "depthMap"), 0);
+
     const Camera& camera = RenderSystem::GetCamera();
     float size[2] = { (float)Core::GetWindowWidth(), (float)Core::GetWindowHeight() };
     glUniform2fv(glGetUniformLocation(program, "screenSize"), 1, size);
@@ -56,17 +60,17 @@ void CloudRenderSystem::SubRender()
     vec3 lightDir = RenderSystem::GetLightDir();
     glUniform3f(glGetUniformLocation(program, "lightDir"), lightDir.x, lightDir.y, lightDir.z);
 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_3D, shapeTexture3D);
-    glUniform1i(glGetUniformLocation(program, "shapeTex"), 0);
-
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_3D, detailTexture3D);
-    glUniform1i(glGetUniformLocation(program, "detailTex"), 1);
+    glBindTexture(GL_TEXTURE_3D, shapeTexture3D);
+    glUniform1i(glGetUniformLocation(program, "shapeTex"), 1);
 
     glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_3D, detailTexture3D);
+    glUniform1i(glGetUniformLocation(program, "detailTex"), 2);
+
+    glActiveTexture(GL_TEXTURE3);
     glBindTexture(GL_TEXTURE_2D, weatherTexture);
-    glUniform1i(glGetUniformLocation(program, "weatherMap"), 2);
+    glUniform1i(glGetUniformLocation(program, "weatherMap"), 3);
 
     // Draw
     glBindVertexArray(planeMesh->GetVertexArray());

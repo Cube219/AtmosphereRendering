@@ -186,6 +186,8 @@ void RenderSystem::Render()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mPlaneMesh->GetIndexBuffer());
     glDrawElements(GL_TRIANGLES, mPlaneMesh->GetIndicesNum(), GL_UNSIGNED_INT, 0);
 
+    glEnable(GL_DEPTH_TEST);
+
     glfwSwapBuffers(Core::GetGLFWwindow());
 }
 
