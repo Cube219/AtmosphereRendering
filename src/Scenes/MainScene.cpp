@@ -44,8 +44,9 @@ void MainScene::Begin()
     GameObjectSystem::RegisterGameObject(mRightBox);
 
     mPlane = std::make_shared<Renderable>(mPlaneMesh);
-    mPlane->SetScale(vec3(10, 1, 10));
-    mPlane->SetPosition(vec3(0, -5, 0));
+    mPlane->SetScale(vec3(40, 1, 40));
+    mPlane->SetPosition(vec3(0, 0, -1));
+    mPlane->SetRotation(vec3(90, 0, 0));
     mPlane->GetRendererComponent()->SetMaterial(0, &mPlaneMaterial);
     GameObjectSystem::RegisterGameObject(mPlane);
 
@@ -81,7 +82,7 @@ void MainScene::Update(double dt)
     vec2 currentMousePos = Core::GetMousePosition();
 
     if(Core::IsMousePressed(MouseButton::Left)) {
-        mPlayerYaw += (currentMousePos.x - mLastMousePos.x) * 0.1f;
+        mPlayerYaw -= (currentMousePos.x - mLastMousePos.x) * 0.1f;
         mPlayerPitch -= (currentMousePos.y - mLastMousePos.y) * 0.1f;
     }
 
@@ -89,9 +90,9 @@ void MainScene::Update(double dt)
     float pitchRad = radians(mPlayerPitch);
 
     vec3 direction;
-    direction.x = cos(yawRad) * cos(pitchRad);
+    direction.x = sin(yawRad) * cos(pitchRad);
     direction.y = sin(pitchRad);
-    direction.z = sin(yawRad) * cos(pitchRad);
+    direction.z = cos(yawRad) * cos(pitchRad);
     direction = normalize(direction);
 
     float dx = 0, dy = 0, dz = 0;
