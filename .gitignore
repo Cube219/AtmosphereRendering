@@ -65,7 +65,6 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-[Bb]in/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
@@ -390,10 +389,3 @@ MigrationBackup/
 .ionide/
 
 # End of https://www.toptal.com/developers/gitignore/api/c++,visualstudio
-
-bin/
-!bin/fonts/
-!bin/models/
-!bin/shaders/
-!bin/sounds/
-!bin/textures/
