@@ -32,13 +32,13 @@ void RenderDebugSystem::SubRender()
     glBindVertexArray(planeMesh->GetVertexArray());
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, planeMesh->GetIndexBuffer());
 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glUniform1i(glGetUniformLocation(program, "debugTex"), 0);
-
     // glActiveTexture(GL_TEXTURE0);
-    // glBindTexture(GL_TEXTURE_3D, texture);
+    // glBindTexture(GL_TEXTURE_2D, texture);
     // glUniform1i(glGetUniformLocation(program, "debugTex"), 0);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_3D, texture);
+    glUniform1i(glGetUniformLocation(program, "debugTex"), 0);
 
     for(int i = 0; i < 4; ++i) {
         mat4 uiMatrix = GetUIMatrix(i);

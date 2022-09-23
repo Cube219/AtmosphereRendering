@@ -48,6 +48,9 @@
     <ClCompile Include="RenderSystem\RenderDebugSystem.cpp">
       <Filter>RenderSystem</Filter>
     </ClCompile>
+    <ClCompile Include="RenderSystem\SkyRenderSystem.cpp">
+      <Filter>RenderSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core.h" />
@@ -100,6 +103,9 @@
       <Filter>RenderSystem</Filter>
     </ClInclude>
     <ClInclude Include="RenderSystem\RenderDebugSystem.h">
+      <Filter>RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem\SkyRenderSystem.h">
       <Filter>RenderSystem</Filter>
     </ClInclude>
   </ItemGroup>

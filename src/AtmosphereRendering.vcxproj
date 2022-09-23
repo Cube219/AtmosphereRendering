@@ -95,6 +95,7 @@
     <ClCompile Include="RenderSystem\CloudRenderSystem.cpp" />
     <ClCompile Include="RenderSystem\RenderDebugSystem.cpp" />
     <ClCompile Include="RenderSystem\RenderSystem.cpp" />
+    <ClCompile Include="RenderSystem\SkyRenderSystem.cpp" />
     <ClCompile Include="ResourceSystem\BaseMeshGenerator.cpp" />
     <ClCompile Include="ResourceSystem\FbxImporter.cpp" />
     <ClCompile Include="ResourceSystem\ImageImporter.cpp" />
@@ -116,6 +117,7 @@
     <ClInclude Include="RenderSystem\RenderDebugSystem.h" />
     <ClInclude Include="RenderSystem\RendererComponent.h" />
     <ClInclude Include="RenderSystem\RenderSystem.h" />
+    <ClInclude Include="RenderSystem\SkyRenderSystem.h" />
     <ClInclude Include="ResourceSystem\BaseMeshGenerator.h" />
     <ClInclude Include="ResourceSystem\FbxImporter.h" />
     <ClInclude Include="ResourceSystem\ImageImporter.h" />

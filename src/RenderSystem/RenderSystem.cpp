@@ -5,6 +5,8 @@
 #include "RenderDebugSystem.h"
 #include "CloudRenderSystem.h"
 #include "RendererComponent.h"
+#include "SkyRenderSystem.h"
+
 #include "../Core.h"
 #include "../ResourceSystem/Mesh.h"
 #include "../ResourceSystem/Shader.h"
@@ -20,7 +22,7 @@ Vector<SPtr<RendererComponent>> RenderSystem::mComponents;
 SPtr<Shader> RenderSystem::mDefaultShader;
 Camera RenderSystem::mDefaultCamera;
 
-vec3 RenderSystem::mLightDir = vec3(0, 1, 0);
+vec3 RenderSystem::mLightDir = vec3(1, 1, 0);
 
 SPtr<Mesh> RenderSystem::mPlaneMesh;
 SPtr<Shader> RenderSystem::mFinalShader;
@@ -30,9 +32,12 @@ GLuint RenderSystem::mDepthMap;
 
 void RenderSystem::Initizlie()
 {
+    mLightDir = normalize(mLightDir);
+
     glLineWidth(1.0f);
     glClearColor(39 / 255.0f, 40 / 255.0f, 34 / 255.0f, 1.0f);
     glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
@@ -81,14 +86,15 @@ void RenderSystem::Render()
     glActiveTexture(GL_TEXTURE3);
     glBindTexture(GL_TEXTURE_2D, 0);
 
+    // Set framebuffer
     glBindFramebuffer(GL_FRAMEBUFFER, mMainFramebuffer);
-
-    glCullFace(GL_BACK);
-
-    // Darw objects
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glViewport(0, 0, mWidth, mHeight);
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // Draw sky
+    SkyRenderSystem::SubRender();
+
+    // Darw objects
     glUseProgram(mDefaultShader->GetProgram());
 
     // Set view/projMatrix
@@ -101,7 +107,6 @@ void RenderSystem::Render()
     // Set lights
     glUniform3fv(glGetUniformLocation(mDefaultShader->GetProgram(), "cameraPos"), 1, value_ptr(mDefaultCamera.position));
 
-    // Draws
     SPtr<Mesh> currentMesh = nullptr;
     for(auto c : mComponents) {
         if(c->GetIsVisible() == false) continue;
