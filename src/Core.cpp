@@ -195,7 +195,7 @@ void Core::OnMouseMoveEvent(GLFWwindow* window, double x, double y)
 void Core::InitializeSystems()
 {
     GameObjectSystem::Initizlie();
-    RenderSystem::Initizlie();
+    RenderSystem::Initialize();
     CloudRenderSystem::Initialize();
     SkyRenderSystem::Initialize();
     RenderDebugSystem::Initialize();

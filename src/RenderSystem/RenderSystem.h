@@ -29,7 +29,7 @@ public:
     RenderSystem() = delete;
     ~RenderSystem() = delete;
 
-    static void Initizlie();
+    static void Initialize();
     static void Shutdown();
 
     static void Render();

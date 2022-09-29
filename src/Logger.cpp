@@ -1,6 +1,6 @@
 #include "Logger.h"
 
-char msgBuf[1001];
+char msgBuf[10001];
 
 const char* SplitFileName(const char* fullPath)
 {

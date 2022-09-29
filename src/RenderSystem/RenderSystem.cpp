@@ -30,7 +30,7 @@ GLuint RenderSystem::mMainFramebuffer;
 GLuint RenderSystem::mColorMap;
 GLuint RenderSystem::mDepthMap;
 
-void RenderSystem::Initizlie()
+void RenderSystem::Initialize()
 {
     mLightDir = normalize(mLightDir);
 

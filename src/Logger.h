@@ -6,7 +6,7 @@
 #include <string.h>
 #include <type_traits>
 
-extern char msgBuf[1001]; // Defined in Logger.cpp
+extern char msgBuf[10001]; // Defined in Logger.cpp
 
 enum class LogType
 {

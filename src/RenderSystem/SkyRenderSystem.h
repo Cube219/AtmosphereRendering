@@ -20,8 +20,17 @@ public:
     static void SubRender();
 
 private:
-    static SPtr<Mesh> planeMesh;
+    static SPtr<Mesh> sphereMesh;
     static SPtr<Shader> skyShader;
+
+    static float innerRadius;
+    static float outerRadius;
+
+    static float g;
+    static float Kr;
+    static float Km;
+    static float sun;
+    static vec3 waveLength4;
 };
 
 #endif // __SKY_RENDER_SYSTEM_H__
