@@ -74,4 +74,6 @@ void main()
 	float cos = dot(lightDir, -toOuterFromCam) / length(toOuterFromCam);
 	color = vec4(rayleighPhase(cos) * rayleighColor + miePhase(cos, g) * mieColor, 1.0);
 	color.a = 1.0;
+
+	color = 1.0 - exp(color * -2.0);
 }
