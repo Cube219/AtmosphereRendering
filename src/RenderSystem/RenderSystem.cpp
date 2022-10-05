@@ -6,6 +6,7 @@
 #include "CloudRenderSystem.h"
 #include "RendererComponent.h"
 #include "SkyRenderSystem.h"
+#include "UIRenderSystem.h"
 
 #include "../Core.h"
 #include "../ResourceSystem/Mesh.h"
@@ -178,6 +179,9 @@ void RenderSystem::Render()
 
     // Draw debug
     RenderDebugSystem::SubRender();
+
+    // Draw ui
+    UIRenderSystem::SubRender();
 
     // Draw backbuffer
     glDisable(GL_DEPTH_TEST);

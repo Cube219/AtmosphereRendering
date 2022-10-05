@@ -6,6 +6,8 @@
 #include "RenderSystem/SkyRenderSystem.h"
 #include "RenderSystem/RenderDebugSystem.h"
 #include "RenderSystem/RenderSystem.h"
+#include "RenderSystem/UIRenderSystem.h"
+
 #include "ResourceSystem/ResourceSystem.h"
 #include "SceneSystem/SceneSystem.h"
 #include "Scenes/MainScene.h"
@@ -198,6 +200,7 @@ void Core::InitializeSystems()
     RenderSystem::Initialize();
     CloudRenderSystem::Initialize();
     SkyRenderSystem::Initialize();
+    UIRenderSystem::Initialize();
     RenderDebugSystem::Initialize();
     // Dispatch resize event for getting aspect ratio
     RenderSystem::OnResize(windowWidth, windowHeight);
@@ -211,6 +214,7 @@ void Core::ShutdownSystems()
     SceneSystem::Shutdown();
     ResourceSystem::Shutdown();
     RenderDebugSystem::Shutdown();
+    UIRenderSystem::Shutdown();
     SkyRenderSystem::Shutdown();
     CloudRenderSystem::Shutdown();
     RenderSystem::Shutdown();
@@ -220,6 +224,7 @@ void Core::ShutdownSystems()
 void Core::UpdateSystems(double dt)
 {
     GameObjectSystem::Update(dt);
+    UIRenderSystem::Update(dt);
 }
 
 void Core::UpdateSystemsNonstop(double dt)
