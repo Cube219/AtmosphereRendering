@@ -80,3 +80,8 @@ void UIRenderSystem::SubRender()
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
+
+bool UIRenderSystem::IsMouseHovered()
+{
+    return ImGui::IsAnyItemHovered() || ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow);
+}

@@ -170,6 +170,7 @@ void Core::OnKeyboardEvent(GLFWwindow * window, int key, int scancode, int actio
 void Core::OnMouseClickEvent(GLFWwindow * window, int button, int action, int mods)
 {
     if(action == GLFW_PRESS) {
+        if(UIRenderSystem::IsMouseHovered()) return;
         if(button == GLFW_MOUSE_BUTTON_LEFT) {
             isMousePressed[(int)MouseButton::Left] = true;
         } else if(button == GLFW_MOUSE_BUTTON_MIDDLE) {

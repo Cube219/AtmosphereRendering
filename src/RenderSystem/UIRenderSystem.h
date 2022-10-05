@@ -19,6 +19,8 @@ public:
     static void Update(double dt);
     static void SubRender();
 
+    static bool IsMouseHovered();
+
 private:
     static bool show_demo_window;
     static bool show_another_window;
