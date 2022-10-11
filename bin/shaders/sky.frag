@@ -50,7 +50,7 @@ void main()
 	float startRayAngle = dot(toOuterFromCam, startPos) / length(startPos);
 	float startDepth = startHeight * scale(startRayAngle);
 
-	const int sampleNum = 8;
+	const int sampleNum = 3;
 	float stepLength = rayLength / float(sampleNum);
 	vec3 rayStep = toOuterFromCam * stepLength;
 	vec3 curPos = startPos + rayStep * 0.5;

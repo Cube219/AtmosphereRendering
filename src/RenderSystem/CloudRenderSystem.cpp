@@ -14,12 +14,22 @@ GLuint CloudRenderSystem::weatherTexture;
 SPtr<Mesh> CloudRenderSystem::planeMesh;
 SPtr<Shader> CloudRenderSystem::cloudShader;
 
+SPtr<Shader> CloudRenderSystem::shapeGenShader;
+SPtr<Shader> CloudRenderSystem::detailGenShader;
+SPtr<Shader> CloudRenderSystem::weatherGenShader;
+
+float CloudRenderSystem::innerSphereRadius = 20500000.0f;
+float CloudRenderSystem::outerSphereRadius = 22600000.0f;
+float CloudRenderSystem::sphereCenterY = -17000000.0f;
+
 void CloudRenderSystem::Initialize()
 {
     InitTextures();
 
     planeMesh = BaseMeshGenerator::GetPlaneMesh();
     cloudShader = Shader::Load("..\\shaders\\cloud.vert", "..\\shaders\\cloud.frag");
+
+    // RenderDebugSystem::SetDebugTexture(weatherTexture);
 }
 
 void CloudRenderSystem::Shutdown()
@@ -53,9 +63,9 @@ void CloudRenderSystem::SubRender()
     mat4 invView = inverse(camera.viewMatrix);
     glUniformMatrix4fv(glGetUniformLocation(program, "invView"), 1, GL_FALSE, value_ptr(invView));
 
-    glUniform3f(glGetUniformLocation(program, "sphereCenter"), camera.position.x, -9600000.0f * 2.0, camera.position.z);
-    glUniform1f(glGetUniformLocation(program, "innerSphereRadius"), 10000000.0f * 2.0);
-    glUniform1f(glGetUniformLocation(program, "outerSphereRadius"), 10900000.0f * 2.0);
+    glUniform3f(glGetUniformLocation(program, "sphereCenter"), camera.position.x, sphereCenterY, camera.position.z);
+    glUniform1f(glGetUniformLocation(program, "innerSphereRadius"), innerSphereRadius);
+    glUniform1f(glGetUniformLocation(program, "outerSphereRadius"), outerSphereRadius);
 
     vec3 lightDir = RenderSystem::GetLightDir();
     glUniform3f(glGetUniformLocation(program, "lightDir"), lightDir.x, lightDir.y, lightDir.z);
@@ -82,18 +92,20 @@ void CloudRenderSystem::SubRender()
 
 void CloudRenderSystem::InitTextures()
 {
-    SPtr<Shader> computeShader;
     GLuint program;
 
     // Shape texture
     glGenTextures(1, &shapeTexture3D);
     glBindTexture(GL_TEXTURE_3D, shapeTexture3D);
     glTexStorage3D(GL_TEXTURE_3D, 6, GL_RGBA8, 128, 128, 128);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     
-    computeShader = Shader::LoadCompute("..\\shaders\\generator\\perlinworley.comp");
-    program = computeShader->GetProgram();
+    shapeGenShader = Shader::LoadCompute("..\\shaders\\generator\\perlinworley.comp");
+    program = shapeGenShader->GetProgram();
     glUseProgram(program);
     
     glActiveTexture(GL_TEXTURE0);
@@ -108,11 +120,14 @@ void CloudRenderSystem::InitTextures()
     glGenTextures(1, &detailTexture3D);
     glBindTexture(GL_TEXTURE_3D, detailTexture3D);
     glTexStorage3D(GL_TEXTURE_3D, 6, GL_RGBA8, 32, 32, 32);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-    computeShader = Shader::LoadCompute("..\\shaders\\generator\\worley.comp");
-    program = computeShader->GetProgram();
+    detailGenShader = Shader::LoadCompute("..\\shaders\\generator\\worley.comp");
+    program = detailGenShader->GetProgram();
     glUseProgram(program);
 
     glActiveTexture(GL_TEXTURE0);
@@ -127,11 +142,14 @@ void CloudRenderSystem::InitTextures()
     glGenTextures(1, &weatherTexture);
     glBindTexture(GL_TEXTURE_2D, weatherTexture);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 2048, 2048, 0, GL_RGBA, GL_FLOAT, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-    computeShader = Shader::LoadCompute("..\\shaders\\generator\\weather.comp");
-    program = computeShader->GetProgram();
+    weatherGenShader = Shader::LoadCompute("..\\shaders\\generator\\weather.comp");
+    program = weatherGenShader->GetProgram();
     glUseProgram(program);
 
     glActiveTexture(GL_TEXTURE0);
@@ -139,8 +157,9 @@ void CloudRenderSystem::InitTextures()
     glBindImageTexture(0, weatherTexture, 0, GL_TRUE, 0, GL_READ_WRITE, GL_RGBA8);
     glUniform1i(glGetUniformLocation(program, "outWeatherTex"), 0);
 
+    glMemoryBarrier(GL_ALL_BARRIER_BITS);
     glDispatchCompute(2048, 2048, 1);
-    glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+    glMemoryBarrier(GL_ALL_BARRIER_BITS);
 }
 
 void CloudRenderSystem::DestroyTextures()
@@ -148,4 +167,8 @@ void CloudRenderSystem::DestroyTextures()
     glDeleteTextures(1, &shapeTexture3D);
     glDeleteTextures(1, &detailTexture3D);
     glDeleteTextures(1, &weatherTexture);
+
+    weatherGenShader = nullptr;
+    detailGenShader = nullptr;
+    shapeGenShader = nullptr;
 }

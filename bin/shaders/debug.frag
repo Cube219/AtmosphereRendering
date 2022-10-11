@@ -1,6 +1,6 @@
 #version 430 core
 
-uniform sampler3D debugTex;
+uniform sampler2D debugTex;
 
 uniform int channel;
 
@@ -12,7 +12,7 @@ void main()
 {
 	vec4 color = vec4(0, 0, 0, 1);
 	
-	color = texture(debugTex, vec3(tc, 0));
+	color = texture(debugTex, tc);
 	
 	if(channel == 0) {
 		fragColor = vec4(color.rrr, 1);

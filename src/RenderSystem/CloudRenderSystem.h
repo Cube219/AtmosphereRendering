@@ -29,6 +29,15 @@ private:
 
     static SPtr<Mesh> planeMesh;
     static SPtr<Shader> cloudShader;
+
+    static SPtr<Shader> shapeGenShader;
+    static SPtr<Shader> detailGenShader;
+    static SPtr<Shader> weatherGenShader;
+
+public:
+    static float innerSphereRadius;
+    static float outerSphereRadius;
+    static float sphereCenterY;
 };
 
 #endif // __CLOUD_RENDER_SYSTEM_H__

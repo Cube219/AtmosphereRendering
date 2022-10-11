@@ -239,7 +239,7 @@ void main()
 		
 		vec3 startPos, endPos;
 		startPos = camPos;
-		endPos = startPos + worldDir * 6000000;
+		endPos = startPos + worldDir * 8000000;
 		
 		// Raymarch
 		vec3 outColor = vec3(0);
