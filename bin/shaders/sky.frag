@@ -37,6 +37,7 @@ float scale(float cos)
 void main()
 {
 	float PI4 = 4.0 * 3.141593;
+	float ScaleOverAverageScaleDepth = Scale / 0.25;
 
 	vec3 outerPos = Normal * outerRadius;
 
@@ -46,7 +47,7 @@ void main()
 
 	vec3 startPos = cameraPos;
 
-	float startHeight = exp(0);
+	float startHeight = exp(ScaleOverAverageScaleDepth * (innerRadius - length(cameraPos)));
 	float startRayAngle = dot(toOuterFromCam, startPos) / length(startPos);
 	float startDepth = startHeight * scale(startRayAngle);
 
@@ -58,7 +59,7 @@ void main()
 	vec3 calculatedColor = vec3(0.0);
 	for (int i = 0; i < sampleNum; ++i)
 	{
-		float height = exp(0);
+		float height = exp(ScaleOverAverageScaleDepth * (innerRadius - length(curPos)));
 		float lightAngle = dot(lightDir, curPos) / length(curPos);
 		float cameraAngle = dot(toOuterFromCam, curPos) / length(curPos);
 		float scatter = startDepth - height * scale(cameraAngle) + height * scale(lightAngle);

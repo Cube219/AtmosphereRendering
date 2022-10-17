@@ -18,9 +18,11 @@ SPtr<Shader> CloudRenderSystem::shapeGenShader;
 SPtr<Shader> CloudRenderSystem::detailGenShader;
 SPtr<Shader> CloudRenderSystem::weatherGenShader;
 
-float CloudRenderSystem::innerSphereRadius = 20500000.0f;
-float CloudRenderSystem::outerSphereRadius = 22600000.0f;
-float CloudRenderSystem::sphereCenterY = -17000000.0f;
+float CloudRenderSystem::innerSphereRadius = 20000000.0f;
+float CloudRenderSystem::outerSphereRadius = 21800000.0f;
+float CloudRenderSystem::sphereCenterY = -18000000.0f;
+
+float CloudRenderSystem::heightFactor = 0.0f;
 
 void CloudRenderSystem::Initialize()
 {
@@ -63,7 +65,7 @@ void CloudRenderSystem::SubRender()
     mat4 invView = inverse(camera.viewMatrix);
     glUniformMatrix4fv(glGetUniformLocation(program, "invView"), 1, GL_FALSE, value_ptr(invView));
 
-    glUniform3f(glGetUniformLocation(program, "sphereCenter"), camera.position.x, sphereCenterY, camera.position.z);
+    glUniform3f(glGetUniformLocation(program, "sphereCenter"), camera.position.x, sphereCenterY + 100 * heightFactor, camera.position.z);
     glUniform1f(glGetUniformLocation(program, "innerSphereRadius"), innerSphereRadius);
     glUniform1f(glGetUniformLocation(program, "outerSphereRadius"), outerSphereRadius);
 

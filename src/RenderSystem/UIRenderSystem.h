@@ -25,6 +25,9 @@ private:
     static bool show_demo_window;
     static bool show_another_window;
     static ImVec4 clear_color;
+
+    static float sunAngle;
+    static float cloudHeight;
 };
 
 #endif // __UI_RENDER_SYSTEM_H__

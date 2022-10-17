@@ -19,6 +19,8 @@ public:
 
     static void SubRender();
 
+    static void SetHeightFactor(float _heightFactor) { heightFactor = _heightFactor; }
+
 private:
     static void InitTextures();
     static void DestroyTextures();
@@ -38,6 +40,8 @@ public:
     static float innerSphereRadius;
     static float outerSphereRadius;
     static float sphereCenterY;
+
+    static float heightFactor;
 };
 
 #endif // __CLOUD_RENDER_SYSTEM_H__

@@ -30,7 +30,7 @@ void SkyRenderSystem::Initialize()
     g = -0.95f;
     Kr = 0.0025f;
     Km = 0.001f;
-    sun = 20.0f;
+    sun = 50.0f;
     waveLength4.x = powf(0.650f, 4.0f);
     waveLength4.y = powf(0.570f, 4.0f);
     waveLength4.z = powf(0.475f, 4.0f);

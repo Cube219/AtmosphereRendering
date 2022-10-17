@@ -2,6 +2,8 @@
 
 #include "CloudRenderSystem.h"
 #include "Core.h"
+#include "RenderSystem.h"
+#include "SkyRenderSystem.h"
 
 #include "../imgui/imgui_impl_glfw.h"
 #include "../imgui/imgui_impl_opengl3.h"
@@ -10,8 +12,14 @@ bool UIRenderSystem::show_demo_window;
 bool UIRenderSystem::show_another_window;
 ImVec4 UIRenderSystem::clear_color;
 
+float UIRenderSystem::sunAngle;
+float UIRenderSystem::cloudHeight;
+
 void UIRenderSystem::Initialize()
 {
+    sunAngle = 30.0f / 180.0f * 3.141593;
+    cloudHeight = 0.0f;
+
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -80,6 +88,14 @@ void UIRenderSystem::Update(double dt)
     ImGui::DragFloat("innerSphereRadius", &CloudRenderSystem::innerSphereRadius, 400);
     ImGui::DragFloat("outerSphereRadius", &CloudRenderSystem::outerSphereRadius, 400);
     ImGui::DragFloat("sphereCenterY", &CloudRenderSystem::sphereCenterY, 400);
+
+    // ImGui::SameLine();
+
+    ImGui::SliderAngle("Sun Angle", &sunAngle, 0, 180);
+    RenderSystem::SetLightDir(vec3(0, sin(sunAngle), cos(sunAngle)));
+
+    ImGui::SliderFloat("Cloud Height", &cloudHeight, -30000.0f, 30000.0f);
+    CloudRenderSystem::SetHeightFactor(cloudHeight);
 
     ImGui::End();
 }

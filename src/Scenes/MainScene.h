@@ -45,8 +45,6 @@ private:
     float mPlayerPitch;
 
     vec2 mLastMousePos;
-
-    float mSunAngle;
 };
 
 #endif // __MAIN_SCENE_H__

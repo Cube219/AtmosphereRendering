@@ -58,8 +58,6 @@ void MainScene::Begin()
     RenderSystem::SetCameraPosition(vec3(0, 0, -1));
     RenderSystem::SetCameraDirection(vec3(0, 0, 0));
     mLastMousePos = Core::GetMousePosition();
-
-    mSunAngle = 90;
 }
 
 void MainScene::End()
@@ -129,17 +127,6 @@ void MainScene::Update(double dt)
     RenderSystem::SetCameraDirection(direction);
 
     mLastMousePos = currentMousePos;
-
-    if(Core::IsKeyPressed('1')) {
-        mSunAngle += 3;
-    }
-    if(Core::IsKeyPressed('2')) {
-        mSunAngle -= 3;
-    }
-    float sunAngleRadian = mSunAngle / 180.0f * 3.141593f;
-    float sunCos = cos(sunAngleRadian);
-    float sunSin = sin(sunAngleRadian);
-    RenderSystem::SetLightDir(vec3(sunCos, sunSin, 0));
 }
 
 void MainScene::OnKeyPress(int code)
